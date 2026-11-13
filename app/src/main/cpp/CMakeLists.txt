@@ -221,6 +221,10 @@ target_compile_options(vulkan_renderer PRIVATE
         -Wall -Wextra -fvisibility=hidden -std=c++17
 )
 
+target_include_directories(vulkan_renderer PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/vulkan-include
+)
+
 target_link_libraries(vulkan_renderer
         log
         android
