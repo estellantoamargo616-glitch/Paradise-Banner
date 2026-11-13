@@ -107,7 +107,7 @@ if(NOT VULKAN_INCOMPATIBLE)
 endif()
 
 find_package(Threads REQUIRED)
-find_package(JsonCpp)
+# # find_package(JsonCpp) # Desactivado para Android # desactivado para Android
 
 ### All options defined here
 option(BUILD_LOADER "Build loader" ON)

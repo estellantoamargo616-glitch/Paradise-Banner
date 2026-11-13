@@ -78,6 +78,7 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags ''
+                arguments "-DCMAKE_HAVE_LIBC_PTHREAD=1", "-DBUILD_WITH_SYSTEM_JSONCPP=OFF", "-DDISABLE_STD_FILESYSTEM=1"
             }
         }
 
@@ -151,6 +152,11 @@ android {
             applicationId "com.winlator.banner"
             resValue "string", "app_name", "Bannerlator Bionic"
         }
+        paradise {
+            dimension "version"
+            applicationId "com.paradisehost"
+            resValue "string", "app_name", "Paradise Banner"
+        }
         ludashi {
             dimension "version"
             applicationId "com.ludashi.benchmark"
@@ -168,7 +174,7 @@ android {
         }
     }
 
-    ndkVersion '29.0.14206865'
+    ndkVersion '26.1.10909125'
 
     externalNativeBuild {
         cmake {
@@ -176,7 +182,7 @@ android {
         }
     }
 
-    ndkVersion '29.0.14206865'
+    ndkVersion '26.1.10909125'
 
     externalNativeBuild {
         cmake {
