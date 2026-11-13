@@ -1,5 +1,69 @@
 # Star-Compose — Progress Log
 
+## 2026-11-13 13:15 EST — 🔀 MERGED fix/ui-sounds-one-list (user: "do it and merge when green")
+
+- **Merged:** backup `refs/backup/20261113/main-before-ui-sounds-one-list` = dc4ea23e (pushed). `--no-ff` merge of fix/ui-sounds-one-list → main **208754bb**. Main had not moved since the branch point.
+- **Tree check:** `git diff 4b5baf44 208754bb -- . ':!PROGRESS_LOG.md'` = empty → main's code is exactly the CI-built 4b5baf44 (CI 43479184538 green 4/4, pubg BUILD SUCCESSFUL in 6m 44s).
+- **In it:** one Sound pack list everywhere (Lab, Deck, Classic): installed → Preview / Apply / Delete, "+ Install a pack zip" at the end; Manage sound packs page removed.
+- **Proof level:** CI green; merged on the user's pre-approval WITHOUT a device test. The Elite still runs 53b2d01c (has the Manage page). Not tested: Preview, zip line, Deck-style list. Previous main CI 43478551861 (ecc153e4) green 4/4.
+
+## 2026-11-13 13:05 EST — UI sounds: one Sound pack list, Manage page removed (fix/ui-sounds-one-list 4b5baf44 off main dc4ea23e, CI 43479184538 running, NOT device-tested)
+
+- **User (screenshots 13:01):** "why do we have manage sound packs if we can download and manage them via sound pack menu?" → "do it and merge when green".
+- **Changed (4b5baf44):** installed pack → **Preview** (plays move, move, select, switch-on from that pack, missing sounds from Steam; the menu stays open) / **Apply** / **Delete**; last line of the list **+ Install a pack zip**. `UiSoundsScreen.kt` (Manage sound packs) deleted, its handoff + dialog removed from app settings and Classic. Deck-style settings: the Sound pack select box opens the same list (`ControlView` / `SelectBox` take an optional `picker`, set for `AppSettingsRegistry.SOUND_PACK_ID`) instead of the plain drop-down.
+- **Plan:** CI green → backup ref → `--no-ff` merge to main (user pre-approved "merge when green") → main CI. Proof level at merge: CI green only, NOT device-tested.
+
+## 2026-11-13 13:02 EST — 🔀 MERGED feat/ui-sounds (user: "it works, merge it")
+
+- **Merged:** backup `refs/backup/20261113/main-before-ui-sounds` = 10e3224e1 (pushed). `--no-ff` merge of feat/ui-sounds 25cd8dcf → main **ecc153e4**. Main had not moved since the branch point.
+- **Tree check:** `git diff 53b2d01c ecc153e4 -- . ':!PROGRESS_LOG.md'` = empty → main's code is exactly the build the user tested (CI 43471178895 green 4/4, installed on the Pocket FIT Elite 12:58 EST, base.apk sha256 3f18abbf…0c06).
+- **In it:** menu sounds with the Steam Big Picture sounds (user-hosted release winlator-contents `Steam-ui-sound`, size + sha256 checked) and every DeckThemes sound pack (Audio Loader `pack.json` format); our own sound player and rules; sounds across Lab, Deck, XMB, Classic and the in-game menus; Settings › Sounds (on/off, volume, Sound pack list with Installed / Available, Apply / Delete, Manage sound packs: preview / remove / install a pack zip). Credits: README + `NOTICE_AUDIOLOADER.txt`.
+- **Proof level:** CI green; the user tested 53b2d01c on the Elite and said "it works". Not reported back in detail: each individual sound, the in-game menu sounds, Steam friends / download / achievement sounds, Classic Settings, zip import. Main push CI 43478551861 started.
+- **Open:** Deck-style Settings still shows Sound pack as a plain drop-down (the Installed / Available list is Lab + Classic); 6 Steam files unused (no screenshot / recording / timer / group-chat features); branch feat/ui-sounds kept.
+
+## 2026-11-13 12:16 EST — UI sounds: Sound pack list with Installed / Available sections (feat/ui-sounds 53b2d01c, CI 43471178895 running, NOT device-tested)
+
+- **User (screenshot 12:12 of the 484dba8f Lab picker):** a total at the top of the available list; installed packs first in an "Installed" section; picking an installed pack offers Apply or Delete, and a deleted pack goes back to the available list.
+- **Changed (53b2d01c):** new `ui/simple/LabSoundPackPicker.kt` `SoundPackPicker` (Lab look, same as SimplePicker): "Installed · N" then "Available · M" headings; installed → `SimpleActionSheet` Apply / Delete; available (↓) → download + use, the list stays open and the row shows "Downloading NN %". Lab `SimpleOneMenu` opens it for `AppSettingsRegistry.SOUND_PACK_ID`; Classic's pack button opens it too (old Classic dialog removed). `UiSoundPacks.delete` of the pack in use → Steam Big Picture again. Lab's generic `SimplePicker` + `SimpleActionSheet` rows now play the move sound, and `SimplePicker` plays dialog sounds (it had none).
+- **Device check of 484dba8f (12:13 EST):** sounds switched on 12:09; Steam pack downloaded (42 files in `files/ui_sounds/steam-big-picture`); DeckThemes list cached (`.store.json` 203 KB); `dumpsys audio`: SoundPool player piid 599 created 12:09:11 by the app (USAGE_GAME / SONIFICATION). App log lines missing because the Elite's main log buffer is 256 KiB and the xsu bridge floods it (not a sound fault).
+- **CI 43471178895:** GREEN 4/4 (headSha 53b2d01c), 12:24 EST. **Staged** `/sdcard/Download/Bannerlator-ui-sounds-53b2d01c-pubg.apk` sha256 3f18abbf…0c06 (artifact == host == device), AOSP testkey, `LabSoundPackPickerKt` in classes5.dex.
+- **Installed 12:58:49 EST (user: "install"):** before: no service, only MainActivity, no game processes (a stale XServerDisplayActivity "source=" line only). `pm install -r` Success; installed base.apk sha256 3f18abbf…0c06 == staged; crash buffer empty; `files/ui_sounds/steam-big-picture` and xuser / xuser-1 kept.
+- **Resume point:** Elite runs 53b2d01c; NOT device-tested; user tests Settings › Sounds › Sound pack (Installed / Available, Apply / Delete, download in the list).
+
+## 2026-11-13 12:05 EST — UI sounds: INSTALLED on the Pocket FIT Elite (feat/ui-sounds 484dba8f, user: "install when green"), NOT device-tested yet
+
+- **CI 43466939624:** GREEN 4/4, headSha 484dba8f; pubg job log BUILD SUCCESSFUL in 5m 16s, no Kotlin errors; skipped steps = the usual branch ones (main-only saves, cached JavaSteam / LSFG / libblsteam / Xbox backend). First run 43465502724 (4d098ccc) also green 4/4.
+- **Staged:** `/sdcard/Download/Bannerlator-ui-sounds-484dba8f-pubg.apk` sha256 2cab6f2b…451b (artifact == host == device); com.tencent.ig in the manifest; signed with the AOSP testkey (A4:0D:A8:0A…); sound classes in classes4/5.dex.
+- **Undo:** `/sdcard/Download/Bannerlator-before-ui-sounds-2223eeb2.apk` = the installed 3.1.9-pre2 (vc 106, the user's reinstall 11:00 EST), sha256 2223eeb2…a5be (copy == installed base.apk).
+- **Before install:** no game session, no service, only MainActivity paused; no peer Claude session (ListAgents).
+- **Installed 12:05:12 EST:** `pm install -r` Success; installed base.apk sha256 2cab6f2b…451b == staged; vc 106 / 3.1.9-pre2 (dev build keeps the release numbers); crash buffer empty; app data intact (xuser, xuser-1); `files/ui_sounds` not created yet (sounds are off until switched on).
+- **Correction:** my earlier entries said 12:05 and 12:20 EST from guesses; real times from `date` / CI createdAt: pop-up change + CI 11:51 EST, install 12:05 EST.
+- **Test plan after install:** Settings › Sounds › Menu sounds on → Steam pack downloads (sha checked) → moving / A / B / dialogs / toggles / tabs make sounds; Sound pack pop-up lists Steam + DeckThemes (↓); pick one → downloads + plays; logcat tag UiSounds; logcat -b crash.
+
+## 2026-11-13 11:51 EST — UI sounds: packs picked from one list (feat/ui-sounds 484dba8f, CI 43466939624 running, NOT device-tested)
+
+- **User:** "can you list all the packs into a simple pop-up menu for users to select just like they do with components" (no separate page to browse).
+- **Changed (484dba8f):** Settings › Sounds › **Sound pack** (Lab picker pop-up / Deck select / XMB choice) lists Steam Big Picture first, installed packs, then every DeckThemes sound pack not downloaded yet, marked ↓ (one request, `perPage=500` → all 240, cached in `files/ui_sounds/.store.json`, refreshed once a day while sounds are on). Picking a ↓ pack downloads it in the background (toast "Downloading …", then "Sound pack ready: …") and uses it. The page is now **Manage sound packs**: preview / remove / install a pack zip. Classic Settings › Sound: switch + pack pop-up button + Manage button.
+- **CI:** 43465502724 (4d098ccc, first version): pubg, antutu, ludashi built OK (standard still running at 12:03) → the code compiles. New run 43466939624 on 484dba8f.
+- **Resume point:** wait for 43466939624 → stage APK → ask before install.
+
+## 2026-11-13 11:43 EST — UI sounds wired in (feat/ui-sounds 4d098ccc, CI 43465502724 running, NOT device-tested)
+
+- **Hooks (code 4d098ccc):** move sound = shared focus pieces (`deckFocusRing`, `labTile`, `DeckRow`, Lab `SimpleMenuPage` rows, XMB `step` / `settleTo` / actions column) and only after a direction press; edge sound = a direction press nothing used (MainActivity / in-game Deck panel / dialogs) + the clamps in Lab lists and XMB; select / back = A / B releases the UI used (MainActivity, in-game Deck panel, every dialog via `DeckDialogBars` → `DialogSound`, which also wraps the dialog window's key callback; Lab popups via `popupKeySounds`); dialogs open / close (`DeckDialogBars` ≈ 225 OutlinedAlertDialogs + ~70 others, Lab action sheet, in-game confirm); toggles + sliders (every Deck / Lab settings editor through `SettingsSource.set`, Lab menu switches, XMB rows, in-game `IgSwitch` / `IgSlider` / drawer `ToggleRow` / `LabeledSlider`); tabs (Deck `goTab`, Lab sections, L2/R2 page tabs, in-game menu pages); side menus (Classic drawer, Lab drawer, in-game menu open/close + Quick↔Menu swap); game page in / out (Lab + Deck game pages); launch (`launchShortcutNow`, Big Picture `launchShortcut`, Android games when started); XMB keyboard typing; volume keys; toasts (`AppUtils.showToast`, Lab `toast`, XMB toast, in-game info toast); achievements (`showAchievementToast`); downloads start / done / failed (store `DownloadRegistry`, components `ContentDownloadRegistry`); Steam friends (message in the open chat, new message, friend online, friend starts a game — quiet for 15 s after the list fills); start-up sound once per app start; Classic Settings Save.
+- **Not used (no matching feature in the app):** `camera1` (screenshot), `recording_start/stop/highlight`, `timer_expired_alarm`, `steam_at_mention` (no group chats), `silence`.
+- **Settings:** new app settings category "Sounds" (Lab / Deck / XMB): Menu sounds on/off, Volume, Sound pack, and "Sound packs" → `UiSoundsScreen` (installed packs: pick / preview / remove / download Steam; DeckThemes store search + order + install; install a pack zip). Classic Settings › Sound: switch + "Sound packs" button. Default off; turning on downloads the Steam pack.
+- **Fix during the work:** my first edit of `core/AppUtils.java` rewrote its CRLF line endings (375 lines changed); restored and re-edited byte-safe before commit.
+- **Next:** CI green → stage APK in /sdcard/Download with sha256 host == device → ask the user before installing.
+- **Resume point:** worktree `/root/src/Bannerlator-wt/ui-sounds`; branch pushed (ls-remote == 4d098ccc); CI 43465502724; nothing installed.
+
+## 2026-11-13 11:28 EST — UI sounds: Steam Big Picture pack + DeckThemes / Audio Loader packs (feat/ui-sounds, IN PROGRESS, not built)
+
+- **Why:** user: menus make no sound when moving around (verified: main 10e3224e has no UI sound code, no audio files; all 291 branches + open PRs checked). User wants Steam Big Picture sounds, "make use of them all", own code (not a GameNative port), and Audio Loader packs (DeckThemes/SDH-AudioLoader, MIT © 2022 EMERALD0874) with our hosted Steam pack as one option.
+- **Steam pack:** user's release winlator-contents `Steam-ui-sound` → `Steam-BigPicture-sounds.zip` 4,715,638 B, sha256 07455cb3…e164 (= the 42 files of the Windows Steam client's `steamui/sounds` on the Elite SD). Valve's files; the user chose to host them (takedown risk told).
+- **Code so far (new package `sound/`):** `UiCue` (every Steam sound mapped to a cue; rank = one input → one sound), `UiSounds` (cue rules: soft select/back wait 70 ms, strong cues win, move sound only after a direction press, edge sound for unused direction presses, per-cue repeat gap), `UiSoundBank` (SoundPool on one thread, media volume), `UiSoundPack` (pack.json reader in the Audio Loader format: ignore / mappings / music; safe unzip with caps), `UiSoundPacks` (install Steam pack with size + sha256 check, DeckThemes store packs, zip import, choice + volume prefs `ui_sounds`, `ui_sounds_pack`, `ui_sounds_volume`; missing sounds fall back to the Steam pack), `DeckThemesStore` (public api.deckthemes.com list/search, `filters=AUDIO.Audio` = 240 sound packs), `UiSoundHooks` (Compose hooks). `BannerlatorApp` calls `UiSoundPacks.init`.
+- **Next:** hook the cues into the shared UI pieces (focus rings, dialogs, toggles, tabs, menus, game page, launch, keyboard), the Activity key hook, the Sounds settings page; push; CI; stage APK; ask before install.
+- **Resume point:** worktree `/root/src/Bannerlator-wt/ui-sounds` (branch feat/ui-sounds off main 10e3224e); nothing pushed yet; nothing installed; no background jobs.
+
 ## 2026-11-13 00:02 EST — 🔀 MERGED fix/download-speed-dialog (user: "merge to main")
 
 - **Merged:** backup `refs/backup/20261113/main-before-download-speed-dialog` = 22ffc13cf. `--no-ff` merge of fix/download-speed-dialog 54e821226.
