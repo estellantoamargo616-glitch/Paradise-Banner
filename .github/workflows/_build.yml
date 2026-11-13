@@ -58,6 +58,7 @@ jobs:
           - { id: ludashi,  task: assembleLudashiRelease  }
           - { id: pubg,     task: assemblePubgRelease     }
           - { id: antutu,   task: assembleAntutuRelease   }
+          - { id: paradise, task: assembleParadiseRelease }
 
     name: build (${{ matrix.flavor.id }})
 
