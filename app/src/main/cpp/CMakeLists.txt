@@ -161,9 +161,9 @@ add_library(vulkan_renderer SHARED
         winlator/lsfg/lsfg_engine.cpp
         winlator/lsfg/lsfg_governor.cpp
         winlator/lsfg/lsfg_jni.cpp
-        # winlator/winfg/framegen.cpp
-        # winlator/winfg/winfg_vkd.cpp
-        # winlator/winfg/winfg_engine.cpp
+        winlator/winfg/framegen.cpp
+        winlator/winfg/winfg_vkd.cpp
+        winlator/winfg/winfg_engine.cpp
         winlator/wfg/wfg_engine.cpp
         scanout/ScanoutContext.cpp
 )
@@ -195,12 +195,12 @@ target_compile_options(wfg PRIVATE -fvisibility=hidden)
 #                    upstream, which is exactly the case a hand-set tag hides.
 set(WINFG_UPSTREAM "v0.3.0")
 set(WINFG_CHAIN_SRC
-        # winlator/winfg/framegen.cpp
-        # winlator/winfg/framegen.hpp
-        # winlator/winfg/record_impl.inc
-        # winlator/winfg/config.hpp
-        # winlator/winfg/embedded_shaders.hpp
-        # winlator/winfg/winfg_engine.cpp
+        winlator/winfg/framegen.cpp
+        winlator/winfg/framegen.hpp
+        winlator/winfg/record_impl.inc
+        winlator/winfg/config.hpp
+        winlator/winfg/embedded_shaders.hpp
+        winlator/winfg/winfg_engine.cpp
 )
 set(WINFG_HASH_INPUT "")
 foreach(f ${WINFG_CHAIN_SRC})
