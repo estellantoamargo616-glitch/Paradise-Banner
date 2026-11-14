@@ -37,6 +37,7 @@ add_library(bannerwayland SHARED
         src/framegen_jni.c
 )
 target_include_directories(bannerwayland PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/vulkan-include
         generated
         prebuilt/include
         src
